@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Sala De Máquinas | Gaming Hardcore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* ============================
+           VARIABLES Y RESET
+        ============================ */
+        :root {
+            --rojo: #ff0033;
+            --rojo-oscuro: #b30024;
+            --rojo-glow: rgba(255, 0, 51, 0.6);
+            --negro: #0a0a0a;
+            --negro-card: #111111;
+            --gris-oscuro: #1a1a1a;
+            --gris: #2a2a2a;
+            --blanco: #f0f0f0;
+            --blanco-suave: #cccccc;
+            --youtube: #ff0000;
+            --instagram: #e1306c;
+            --twitter: #1da1f2;
+            --telegram: #0088cc;
+            --font-titulo: 'Orbitron', sans-serif;
+            --font-cuerpo: 'Rajdhani', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-cuerpo);
+            background-color: var(--negro);
+            color: var(--blanco);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ============================
+           FONDO ANIMADO (Partículas/Scanlines)
+        ============================ */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(255, 0, 51, 0.015) 2px,
+                rgba(255, 0, 51, 0.015) 4px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* ============================
+           HERO SECTION
+        ============================ */
+        .hero {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://yt3.googleusercontent.com/8DLRojwG8BcuFyLcS_0-Zd9r1zErNyYcFTuhFug7o_qCq-zy5gnmahSvTnUAZL_sEZzyjL7k9rY=w1707-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj') center center / cover no-repeat;
+            filter: blur(6px) brightness(0.25) saturate(0.6);
+            transform: scale(1.1);
+            z-index: 0;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(10, 10, 10, 0.5) 0%,
+                rgba(10, 10, 10, 0.7) 50%,
+                rgba(10, 10, 10, 0.95) 100%
+            );
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        /* ============================
+           FOTO DE PERFIL
+        ============================ */
+        .avatar-container {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .avatar-ring {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            padding: 4px;
+            background: conic-gradient(
+                var(--rojo),
+                var(--rojo-oscuro),
+                var(--rojo),
+                #ff4466,
+                var(--rojo)
+            );
+            animation: ringRotate 4s linear infinite;
+            box-shadow: 0 0 30px var(--rojo-glow), 0 0 60px rgba(255, 0, 51, 0.2);
+        }
+
+        @keyframes ringRotate {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--negro);
+            display: block;
+        }
+
+        /* ============================
+           TÍTULO CON EFECTO GLITCH
+        ============================ */
+        .channel-name {
+            font-family: var(--font-titulo);
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--blanco);
+            margin-bottom: 8px;
+            position: relative;
+            text-shadow: 0 0 10px var(--rojo-glow);
+        }
+
+        .channel-name .glitch {
+            position: relative;
+            display: inline-block;
+        }
+
+        .channel-name .glitch::before,
+        .channel-name .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .channel-name .glitch::before {
+            color: #0ff;
+            animation: glitch1 3s infinite;
+            clip-path: inset(0 0 65% 0);
+        }
+
+        .channel-name .glitch::after {
+            color: var(--rojo);
+            animation: glitch2 3s infinite;
+            clip-path: inset(65% 0 0 0);
+        }
+
+        @keyframes glitch1 {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-3px, 1px); }
+            94% { transform: translate(3px, -1px); }
+            96% { transform: translate(-2px, 2px); }
+            98% { transform: translate(2px, -2px); }
+        }
+
+        @keyframes glitch2 {
+            0%, 90%, 100% { transform: translate(0); }
+            91% { transform: translate(3px, 1px); }
+            93% { transform: translate(-3px, -1px); }
+            95% { transform: translate(2px, 2px); }
+            97% { transform: translate(-2px, -2px); }
+        }
+
+        .tagline {
+            font-family: var(--font-titulo);
+            font-size: clamp(0.65rem, 2vw, 0.8rem);
+            font-weight: 400;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--rojo);
+            margin-bottom: 24px;
+        }
+
+        /* ============================
+           DESCRIPCIÓN
+        ============================ */
+        .description {
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            font-weight: 400;
+            line-height: 1.7;
+            color: var(--blanco-suave);
+            margin-bottom: 36px;
+            max-width: 520px;
+        }
+
+        .description strong {
+            color: var(--blanco);
+            font-weight: 700;
+        }
+
+        .description .highlight {
+            color: var(--rojo);
+            font-weight: 700;
+        }
+
+        /* ============================
+           BOTÓN PRINCIPAL YOUTUBE
+        ============================ */
+        .btn-youtube-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 44px;
+            background: var(--youtube);
+            color: #fff;
+            font-family: var(--font-titulo);
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            border-radius: 60px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.4), 0 0 50px rgba(255, 0, 0, 0.15);
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        .btn-youtube-main:hover {
+            transform: scale(1.07);
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.6), 0 0 80px rgba(255, 0, 0, 0.3);
+            animation: none;
+        }
+
+        .btn-youtube-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-youtube-main:hover::before {
+            left: 100%;
+        }
+
+        .btn-youtube-main i {
+            font-size: 1.4em;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 25px rgba(255, 0, 0, 0.4), 0 0 50px rgba(255, 0, 0, 0.15); }
+            50% { box-shadow: 0 0 35px rgba(255, 0, 0, 0.6), 0 0 70px rgba(255, 0, 0, 0.25); }
+        }
+
+        /* ============================
+           SECCIÓN DE ENLACES
+        ============================ */
+        .links-section {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        .section-title {
+            font-family: var(--font-titulo);
+            font-size: clamp(0.7rem, 2vw, 0.8rem);
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--rojo);
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .section-title::before,
+        .section-title::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--rojo));
+        }
+
+        .section-title::before {
+            right: calc(50% + 80px);
+            background: linear-gradient(90deg, transparent, var(--rojo));
+        }
+
+        .section-title::after {
+            left: calc(50% + 80px);
+            background: linear-gradient(270deg, transparent, var(--rojo));
+        }
+
+        /* ============================
+           TARJETAS DE ENLACES
+        ============================ */
+        .link-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            padding: 16px 22px;
+            margin-bottom: 12px;
+            background: var(--negro-card);
+            border: 1px solid var(--gris);
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--blanco);
+            font-family: var(--font-cuerpo);
+            font-size: 1.05rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-color, var(--rojo));
+            border-radius: 4px 0 0 4px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .link-card:hover {
+            transform: translateX(6px);
+            border-color: var(--accent-color, var(--rojo));
+            background: var(--gris-oscuro);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 0, 51, 0.1);
+        }
+
+        .link-card:hover::before {
+            opacity: 1;
+        }
+
+        .link-card .icon-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            background: var(--accent-color, var(--rojo));
+            color: #fff;
+            transition: transform 0.3s ease;
+        }
+
+        .link-card:hover .icon-circle {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .link-card .link-text {
+            flex: 1;
+        }
+
+        .link-card .link-text small {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--blanco-suave);
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        .link-card .arrow {
+            font-size: 0.9rem;
+            color: var(--blanco-suave);
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .link-card:hover .arrow {
+            transform: translateX(4px);
+            color: var(--accent-color, var(--rojo));
+        }
+
+        /* Colores por red social */
+        .link-card.instagram { --accent-color: #e1306c; }
+        .link-card.twitter { --accent-color: #1da1f2; }
+        .link-card.telegram { --accent-color: #0088cc; }
+        .link-card.youtube-join { --accent-color: #ff0000; }
+        .link-card.linktree { --accent-color: #33e0a0; }
+
+        /* ============================
+           SEPARADOR "LA JEFA"
+        ============================ */
+        .jefa-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 36px 0 24px;
+        }
+
+        .jefa-divider .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--rojo), transparent);
+        }
+
+        .jefa-divider .badge {
+            font-family: var(--font-titulo);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--rojo);
+            background: var(--negro);
+            border: 1px solid var(--rojo);
+            padding: 6px 18px;
+            border-radius: 30px;
+            white-space: nowrap;
+            box-shadow: 0 0 15px rgba(255, 0, 51, 0.2);
+        }
+
+        /* ============================
+           FOOTER
+        ============================ */
+        .footer {
+            text-align: center;
+            padding: 30px 20px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer p {
+            font-family: var(--font-cuerpo);
+            font-size: 0.85rem;
+            color: #555;
+            letter-spacing: 2px;
+        }
+
+        .footer .skull {
+            font-size: 1.2rem;
+            margin: 0 6px;
+            color: var(--rojo-oscuro);
+        }
+
+        /* ============================
+           ANIMACIÓN DE ENTRADA
+        ============================ */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .fade-up:nth-child(1) { animation-delay: 0.1s; }
+        .fade-up:nth-child(2) { animation-delay: 0.2s; }
+        .fade-up:nth-child(3) { animation-delay: 0.3s; }
+        .fade-up:nth-child(4) { animation-delay: 0.4s; }
+        .fade-up:nth-child(5) { animation-delay: 0.5s; }
+        .fade-up:nth-child(6) { animation-delay: 0.6s; }
+        .fade-up:nth-child(7) { animation-delay: 0.7s; }
+        .fade-up:nth-child(8) { animation-delay: 0.8s; }
+        .fade-up:nth-child(9) { animation-delay: 0.9s; }
+        .fade-up:nth-child(10) { animation-delay: 1.0s; }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================
+           RESPONSIVE
+        ============================ */
+        @media (max-width: 480px) {
+            .hero {
+                padding: 30px 16px;
+            }
+
+            .avatar-ring {
+                width: 120px;
+                height: 120px;
+            }
+
+            .btn-youtube-main {
+                padding: 16px 32px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .section-title::before,
+            .section-title::after {
+                width: 30px;
+            }
+
+            .section-title::before {
+                right: calc(50% + 60px);
+            }
+
+            .section-title::after {
+                left: calc(50% + 60px);
+            }
+
+            .link-card {
+                padding: 14px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================
+         HERO SECTION
+    ========================= -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <!-- Foto de perfil -->
+            <div class="avatar-container fade-up">
+                <div class="avatar-ring">
+                    <img
+                        src="https://yt3.googleusercontent.com/HgMAJJejca2fM22ubXzCsQXPdyIsGcbtlCpD2mpk1_TijJ901R2kgnjbJwdh-qefBbRZWeis7g=s160-c-k-c0x00ffffff-no-rj"
+                        alt="La Sala De Máquinas"
+                        class="avatar"
+                    >
+                </div>
+            </div>
+
+            <!-- Nombre del canal -->
+            <h1 class="channel-name fade-up">
+                <span class="glitch" data-text="La Sala De Máquinas">La Sala De Máquinas</span>
+            </h1>
+
+            <p class="tagline fade-up">Gaming Hardcore &bull; Retro &bull; Sin Filtros</p>
+
+            <!-- Descripción -->
+            <p class="description fade-up">
+                Un par de frikazos: <strong>Máquinas</strong>, hardcore de camisetas negras con calaveras, amante del retro y el formato físico, y <strong>La Jefa</strong>, gamergirl, cosplayer y boxeadora. Hablamos de videojuegos con <span class="highlight">mucho humor</span> y <span class="highlight">sin paños calientes</span>. Si quieres ver algo diferente, este es tu canal.
+            </p>
+
+            <!-- Botón principal de YouTube -->
+            <a href="https://www.youtube.com/@LaSalaDeMaquinasRetro" target="_blank" rel="noopener" class="btn-youtube-main fade-up">
+                <i class="fab fa-youtube"></i>
+                Suscríbete al Canal
+            </a>
+        </div>
+    </section>
+
+    <!-- ========================
+         ENLACES DEL CANAL
+    ========================= -->
+    <section class="links-section">
+
+        <h2 class="section-title fade-up">Síguenos</h2>
+
+        <!-- Instagram del canal -->
+        <a href="https://instagram.com/la_sala_de_maquinas_retro" target="_blank" rel="noopener" class="link-card instagram fade-up">
+            <div class="icon-circle">
+                <i class="fab fa-instagram"></i>
+            </div>
+            <div class="link-text">
+                Instagram del Canal
+                <small>@la_sala_de_maquinas_retro</small>
+            </div>
+            <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+        </a>
+
+        <!-- Twitter / X -->
+        <a href="https://twitter.com/salademaquinas8" target="_blank" rel="noopener" class="link-card twitter fade-up">
+            <div class="icon-circle">
+                <i class="fab fa-x-twitter"></i>
+            </div>
+            <div class="link-text">
+                Twitter / X
+                <small>@salademaquinas8</small>
+            </div>
+            <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+        </a>
+
+        <!-- Telegram del canal -->
+        <a href="https://t.me/+CrgOq3QarWhlOTRk" target="_blank" rel="noopener" class="link-card telegram fade-up">
+            <div class="icon-circle">
+                <i class="fab fa-telegram-plane"></i>
+            </div>
+            <div class="link-text">
+                Telegram del Canal
+                <small>Únete a la comunidad</small>
+            </div>
+            <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+        </a>
+
+        <!-- Apoya el canal -->
+        <a href="https://www.youtube.com/channel/UCInfFrjeKL5FGloD5j8dl8w/join" target="_blank" rel="noopener" class="link-card youtube-join fade-up">
+            <div class="icon-circle">
+                <i class="fas fa-heart"></i>
+            </div>
+            <div class="link-text">
+                Apoya el Canal
+                <small>Hazte miembro en YouTube</small>
+            </div>
+            <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+        </a>
+
+        <!-- ========================
+             SECCIÓN LA JEFA
+        ========================= -->
+        <div class="jefa-divider fade-up">
+            <div class="line"></div>
+            <span class="badge">👑 La Jefa</span>
+            <div class="line"></div>
+        </div>
+
+        <!-- Instagram de La Jefa -->
+        <a href="https://instagram.com/lajefadelasalademaquinas" target="_blank" rel="noopener" class="link-card instagram fade-up">
+            <div class="icon-circle">
+                <i class="fab fa-instagram"></i>
+            </div>
+            <div class="link-text">
+                Instagram de La Jefa
+                <small>@lajefadelasalademaquinas</small>
+            </div>
+            <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+        </a>
+
+        <!-- Telegram de La Jefa -->
+        <a href="https://t.me/lajefadelasalademaquinas" target="_blank" rel="noopener" class="link-card telegram fade-up">
+            <div class="icon-circle">
+                <i class="fab fa-telegram-plane"></i>
+            </div>
+            <div class="link-text">
+                Telegram de La Jefa
+                <small>Canal personal</small>
+            </div>
+            <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+        </a>
+
+        <!-- Linktree de La Jefa -->
+        <a href="https://linktr.ee/lajefadelasalademaquinas" target="_blank" rel="noopener" class="link-card linktree fade-up">
+            <div class="icon-circle">
+                <i class="fas fa-link"></i>
+            </div>
+            <div class="link-text">
+                Todas las redes de La Jefa
+                <small>Linktree</small>
+            </div>
+            <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+        </a>
+
+    </section>
+
+    <!-- ========================
+         FOOTER
+    ========================= -->
+    <footer class="footer">
+        <p>
+            <span class="skull">💀</span>
+            La Sala De Máquinas &copy; 2025
+            <span class="skull">💀</span>
+        </p>
+    </footer>
+
+</body>
+</html>
